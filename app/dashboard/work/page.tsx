@@ -9,68 +9,68 @@ import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
 
-interface Work{
-  id:string;
-  liveLink:string;
-  title:string;
-  category:string;
-  shortDescription:string;
+interface Work {
+  id: string;
+  liveLink: string;
+  title: string;
+  category: string;
+  shortDescription: string;
 
 }
 
 export default function WorkListPage() {
   // const works: Work[] = mockWorks
-  const [work , setWork] = useState<Work[] | undefined>(undefined)
+  const [work, setWork] = useState<Work[] | undefined>(undefined)
   const router = useRouter()
 
-  const {isLoggedIn , isAuthLoading} = useAuthContext()
-  useEffect(()=>{
+  const { isLoggedIn, isAuthLoading } = useAuthContext()
+  useEffect(() => {
     fetcher()
-  },[])
+  }, [])
 
-    useEffect(() => {
-      if (!isAuthLoading && !isLoggedIn) {
-        router.push("/auth/login")
-      }
-    }, [isAuthLoading , isLoggedIn, router])
-  
-    if (isAuthLoading) {
-      return (<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-        checking login status
-      </div>)
+  useEffect(() => {
+    if (!isAuthLoading && !isLoggedIn) {
+      router.push("/auth/login")
     }
+  }, [isAuthLoading, isLoggedIn, router])
+
+  if (isAuthLoading) {
+    return (<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+      checking login status
+    </div>)
+  }
 
 
-  const fetcher = async ()=>{
+  const fetcher = async () => {
     try {
-        const works = await axiosInstance.get(`/works`)
-        console.log("these are works " , works.data)
-        setWork(works.data)
-    } catch (error:unknown) {
+      const works = await axiosInstance.get(`/works`)
+      console.log("these are works ", works.data)
+      setWork(works.data)
+    } catch (error: unknown) {
       if (error instanceof Error) {
-          console.log("error while fetching the works : " , error.message)
+        console.log("error while fetching the works : ", error.message)
       } else {
-          console.log("Unknown error occurred while fetching the works");
+        console.log("Unknown error occurred while fetching the works");
       }
     }
   }
 
-  
 
-  const handleDelete = async (id:string)=>{
+
+  const handleDelete = async (id: string) => {
     try {
-        await axiosInstance.delete(`/works/${id}`)
-        const updated = work?.filter(w => w.id !== id);
-        setWork(updated);
-        toast.success("Deleted successfully")
-    } catch (error:unknown) {
+      await axiosInstance.delete(`/works/${id}`)
+      const updated = work?.filter(w => w.id !== id);
+      setWork(updated);
+      toast.success("Deleted successfully")
+    } catch (error: unknown) {
       if (error instanceof Error) {
-          console.log("error in deleteing the work" , error.message)
-          
+        console.log("error in deleteing the work", error.message)
+
       } else {
-          console.log("Unknown error occurred while deleting the work");
+        console.log("Unknown error occurred while deleting the work");
       }
-        toast.error("error while deleting the work")
+      toast.error("error while deleting the work")
     }
   }
 
@@ -111,11 +111,12 @@ export default function WorkListPage() {
                     <p className="text-sm text-gray-600">Project Preview</p>
                   </div>
                 </div>
-                
+
                 {/* Image Overlay with Quick Actions */}
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                   <div className="flex gap-2">
-                    <Link href={work.liveLink} className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <Link href={work.liveLink} target="_blank"
+                      rel="noopener noreferrer" className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       <button className="p-2 bg-white/90 hover:bg-white text-gray-800 rounded-full shadow-lg">
                         <ExternalLink className="w-4 h-4" />
                       </button>
@@ -134,7 +135,7 @@ export default function WorkListPage() {
                     {work.category}
                   </span>
                 </div>
-                
+
                 <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                   {work.shortDescription}
                 </p>
@@ -147,9 +148,9 @@ export default function WorkListPage() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 pt-4 border-t border-gray-100">
-                    
+
                   <Link href={`/dashboard/work/${work.id}/edit`} className="flex-1">
-                    <Button 
+                    <Button
                       className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 transition-all duration-200"
                       variant="secondary"
                     >
@@ -157,10 +158,10 @@ export default function WorkListPage() {
                       Edit
                     </Button>
                   </Link>
-                  <Button 
+                  <Button
                     className="flex-1 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition-all duration-200"
                     variant="destructive"
-                    onClick={()=>handleDelete(work.id)}
+                    onClick={() => handleDelete(work.id)}
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Delete
