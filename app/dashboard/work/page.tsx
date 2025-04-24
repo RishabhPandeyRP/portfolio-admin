@@ -24,6 +24,7 @@ export default function WorkListPage() {
   const router = useRouter()
 
   const { isLoggedIn, isAuthLoading } = useAuthContext()
+  
   useEffect(() => {
     fetcher()
   }, [])

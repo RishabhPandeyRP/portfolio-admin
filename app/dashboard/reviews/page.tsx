@@ -26,6 +26,18 @@ const ReviewsListPage = () => {
   const router = useRouter()
 
   const {isLoggedIn , isAuthLoading} = useAuthContext()
+
+  const calculateAvgRating = (reviews : Review[])=>{
+    let totalRating = 0
+    if(reviews.length != 0){
+      for(let i=0;i<reviews.length;i++){
+        totalRating += reviews[i].rating
+      }
+      return Number((totalRating / reviews.length).toFixed(2))
+    }
+    return 0.0
+  }
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,9 +47,12 @@ const ReviewsListPage = () => {
         const averageRating = calculateAvgRating(fetchedReviews.data)
         console.log("this is average rating" , averageRating)
         setTotRating(averageRating)
-      } catch (err) {
+      } catch (err:unknown) {
         console.log("error while fetching the reviews" , err)
-        setError('Failed to fetch reviews');
+        if(err instanceof Error){
+          setError(err.message);
+        }
+        
       } finally {
         setIsLoading(false);
       }
@@ -60,16 +75,7 @@ const ReviewsListPage = () => {
 
   
 
-  const calculateAvgRating = (reviews : Review[])=>{
-    let totalRating = 0
-    if(reviews.length != 0){
-      for(let i=0;i<reviews.length;i++){
-        totalRating += reviews[i].rating
-      }
-      return Number((totalRating / reviews.length).toFixed(2))
-    }
-    return 0.0
-  }
+  
 
   if (error) {
     return (
