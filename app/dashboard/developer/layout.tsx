@@ -36,7 +36,7 @@ const DeveloperLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             {/* Tabs */}
-            <div className="mt-6 border-b border-gray-200">
+            {/* <div className="mt-6 border-b border-gray-200">
               <div className="flex -mb-px space-x-8">
                 <Link 
                   href="/dashboard/developer" 
@@ -57,7 +57,7 @@ const DeveloperLayout = ({ children }: { children: React.ReactNode }) => {
                   Settings
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
