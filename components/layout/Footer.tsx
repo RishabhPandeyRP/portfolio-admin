@@ -1,5 +1,5 @@
 import React from "react"
-import { Users, Code, Briefcase, Settings } from 'lucide-react'
+import { Users, Star, Briefcase, Settings } from 'lucide-react'
 import Link from 'next/link'
 
 const Footer = () => {
@@ -17,9 +17,9 @@ const Footer = () => {
                             <Users className="w-4 h-4 mr-2" />
                             Team Members
                         </Link>
-                        <Link href="/dashboard/skills" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
-                            <Code className="w-4 h-4 mr-2" />
-                            Skills
+                        <Link href="/dashboard/reviews" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
+                            <Star className="w-4 h-4 mr-2" />
+                            Reviews
                         </Link>
                         <Link href="/dashboard/settings" className="flex items-center text-gray-600 hover:text-indigo-600 transition-colors">
                             <Settings className="w-4 h-4 mr-2" />
